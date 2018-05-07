@@ -54,7 +54,7 @@ public class InterfazCriaturasMagicas extends JFrame {
 		panelNorte.setOpaque(false);
 		add(panelNorte, BorderLayout.NORTH);
 
-		panelMapa = new PanelMapa();
+		panelMapa = new PanelMapa(this);
 		panelMapa.setOpaque(false);
 		panelMapa.setPreferredSize(new Dimension(552, 450));
 		add(panelMapa, BorderLayout.WEST);
@@ -133,8 +133,14 @@ public class InterfazCriaturasMagicas extends JFrame {
 
 	public void reiniciar()
 	{
-		panelMapa.reiniciar();
-		panelInfo.reiniciar();
+		try {
+			mundo.cargarTablero(tablero);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		panelMapa.cargar(mundo.darTablero());;
+		panelInfo.cargar(mundo.darPuntaje()+"", mundo.darMovimientosRestantes()+"");
 	}
 
 	public void criaturasFila() 
@@ -203,6 +209,23 @@ public class InterfazCriaturasMagicas extends JFrame {
 
 		// TODO Auto-generated method stub
 
+	}
+	public void click(int fila, int col) 
+	{
+		// TODO Auto-generated method stub
+		try {
+			mundo.click(fila, col);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ImageIcon icono = new ImageIcon( new ImageIcon( mundo.buscarCriatura(e.getMessage()).darRutaImagen() ).getImage( ).getScaledInstance( 150, 150, Image.SCALE_DEFAULT ) );
+			JOptionPane.showMessageDialog( this,"Encontraste 1 "+ e.getMessage(), "Hacer una jugada", JOptionPane.INFORMATION_MESSAGE, icono);
+		}
+		
+		panelMapa.actualizar(mundo.darTablero());
+		panelInfo.cargar(mundo.darPuntaje()+"", mundo.darMovimientosRestantes()+"");
+		
+		
 	}
 
 

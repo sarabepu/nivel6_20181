@@ -48,11 +48,6 @@ public class PanelInformacionJuego extends JPanel
 		validate();
 	}
 	
-	public void reiniciar()
-	{
-		txtpuntaje.setText("");
-		txtMov.setText("");
-		validate();
-	}
+
 }
 

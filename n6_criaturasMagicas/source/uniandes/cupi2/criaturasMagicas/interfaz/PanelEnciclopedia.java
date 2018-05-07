@@ -117,7 +117,7 @@ public class PanelEnciclopedia extends JPanel implements ActionListener {
 			txtgustos.setText(pCriatura.darGustos());
 			txtmiedos.setText(pCriatura.darMiedos());
 			nombre.setText(pCriatura.darNombre());
-			puntos.setText(pCriatura.darPuntos()+"");
+			puntos.setText(Math.abs(pCriatura.darPuntos())+"");
 			luz.setSelected(pCriatura.esSerDeLuz());
 			imagen.setIcon(new ImageIcon(new ImageIcon(
 				pCriatura.darRutaImagen() ).getImage( ).getScaledInstance( 200, 200,

@@ -38,6 +38,8 @@ public class CriaturasMagicas
 	 */
 	private Properties datos;
 	private Properties datos2;
+	private int puntos;
+	private int movimientosRestantes;
 
 	/**
 	 * Criatura actual en la navegación.
@@ -95,6 +97,10 @@ public class CriaturasMagicas
 
 	public  void inicializarTablero(){
 		Properties datos= datos2;
+
+		String numeroMov = datos.getProperty("tablero.cantidadMovimientos");
+		movimientosRestantes = Integer.parseInt(numeroMov); 
+
 		String numeroFilas = datos.getProperty("tablero.cantidadFilas");
 		filas = Integer.parseInt(numeroFilas);  
 
@@ -127,10 +133,10 @@ public class CriaturasMagicas
 
 	} 
 
-public Casilla[][] darTablero()
-{
-	return tablero;
-}
+	public Casilla[][] darTablero()
+	{
+		return tablero;
+	}
 
 
 
@@ -187,16 +193,41 @@ public Casilla[][] darTablero()
 	 */
 	public int darPuntaje( )
 	{
-		return 0;
+		return puntos;
 	}
 
+	public void click(int i, int j) throws Exception
+	{
+		
+		System.out.println("fila "+i+"col"+j);
+		if(tablero[i][j].esVisitada())
+		{
+			movimientosRestantes--;
+		}
+		else
+		{
+			Criatura criatura= tablero[i][j].darCriatura();
+			tablero[i][j].visitar(true);
+			movimientosRestantes--;
+			if(criatura!=null)
+			{
+				puntos+=criatura.darPuntos();
+				tablero[i][j].cambiarTipo(criatura.darRutaImagen());
+				throw new Exception (criatura.darNombre());
+			}
+			else
+			{
+				tablero[i][j].cambiarTipo(Casilla.VISITADA);
+			}
+		}
+	}
 	/**
 	 * Retorna la cantidad de movimientos restantes del jugador. Este valor siempre es 10.
 	 * @return La cantidad de movimientos restantes del jugador.
 	 */
 	public int darMovimientosRestantes( )
 	{
-		return 10;
+		return movimientosRestantes;
 	}
 
 	/**
@@ -286,8 +317,14 @@ public Casilla[][] darTablero()
 	 */
 	public int darCantidadCriaturasPorFila( int pFila )
 	{
-		double valorAleatorio = Math.random( );
-		int cantidad = ( int ) ( 5 * valorAleatorio );
+		int cantidad=0;
+
+		for(int i=0; i< tablero[0].length; i++)
+		{
+			if(tablero[pFila][i].darCriatura()!=null)
+				cantidad++;
+		}
+
 
 		return cantidad;
 	}
@@ -299,8 +336,13 @@ public Casilla[][] darTablero()
 	 */
 	public int darCantidadCriaturasPorColumna( int pColumna )
 	{
-		double valorAleatorio = Math.random( );
-		int cantidad = ( int ) ( 5 * valorAleatorio );
+		int cantidad=0;
+		for(int i=0; i< tablero.length; i++)
+		{
+			if(tablero[i][pColumna].darCriatura()!=null)
+				cantidad++;
+		}
+
 
 		return cantidad;
 	}
@@ -309,23 +351,84 @@ public Casilla[][] darTablero()
 	 * Retorna el puntaje total que se puede obtener si se encuentran todas las criaturas el cuadrante especificado. Esta cantidad se genera aleatoriamente.
 	 * @param pCuadrante Cuadrante que se desea consultar. pCuadrante > 0 && pCuadrante <= 4
 	 * @return El puntaje que se puede obtener en cuadrante especificado.
+	 * @throws Exception 
 	 */
-	public int calcularPuntajePorCuadrante( int pCuadrante )
+	public int calcularPuntajePorCuadrante( int pCuadrante ) throws Exception
 	{
-		double valorAleatorio = Math.random( );
-		int cantidad = ( int ) ( 2000 * valorAleatorio );
+		int cantidad=0;
+		int filaI=0;
+		int columnaI=0;
+		int filaF=0;
+		int columnaF=0;
+		if(pCuadrante==1)
+		{
+			filaF=filas/2;
+			columnaF=columnas/2;
+		}
+		else if(pCuadrante==2)
+		{
+			filaI=0;
+			filaF=filas/2;
+			columnaI=columnas/2;
+			columnaF=columnas;
+		}
+		else if(pCuadrante==3)
+		{
+			filaI=filas/2;
+			filaF=filas;
+			columnaI=0;
+			columnaF=columnas/2;
+		}
+		else if(pCuadrante==4)
+		{
+			filaI=filas/2;
+			filaF=filas;
+			columnaI=columnas;
+			columnaF=columnas/2;
+		}
+		else
+		{
+			throw new Exception ("Numero de cuadrante invalido");
+		}
+
+		for(int i= filaI; i<filaF; i++)
+		{
+			for(int j= columnaI; j<columnaF; j++)
+			{
+				Criatura criatura=tablero[i][j].darCriatura();
+				if(criatura!=null&&!tablero[i][j].esVisitada())
+				{
+					cantidad+=criatura.darPuntos();
+				}
+			}
+		}
 
 		return cantidad;
 
 	}
 
 	/**
-	 * Retorna la criatura de luz no encontrada que tiene el mayor puntaje. Siempre retorna el dragón.
+	 * Retorna la criatura de luz no encontrada que tiene el mayor puntaje. 
 	 * @return Criatura con el mayor puntaje.
 	 */
 	public Criatura darCriaturaMayorPuntaje( )
 	{
-		return buscarCriatura( "Dragón" );
+		Criatura ans= null;
+		int maxPuntos=0;
+		for (int i = 0; i < tablero.length; i++) 
+		{
+			for (int j = 0; j < tablero[0].length; j++) 
+			{
+				Criatura criatura = tablero[i][j].darCriatura();
+				if(criatura!=null&&criatura.darPuntos()>maxPuntos&&!tablero[i][j].esVisitada())
+				{
+					ans=criatura;
+					maxPuntos= criatura.darPuntos();
+				}
+			}
+		}
+
+		return ans;
 	}
 
 	// ----------------------------------------------------------------
@@ -349,5 +452,7 @@ public Casilla[][] darTablero()
 	{
 		return "Respuesta 2";
 	}
+
+	
 
 }
