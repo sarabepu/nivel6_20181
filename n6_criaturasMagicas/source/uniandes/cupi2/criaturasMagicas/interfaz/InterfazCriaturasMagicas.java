@@ -100,7 +100,6 @@ public class InterfazCriaturasMagicas extends JFrame {
 		}
 	}
 
-
 	public void cambiarSiguiente() 
 	{
 		try {
@@ -134,12 +133,13 @@ public class InterfazCriaturasMagicas extends JFrame {
 	public void reiniciar()
 	{
 		try {
-			mundo.cargarTablero(tablero);
+			mundo.tablero(tablero);
+			mundo.reiniciarPuntajes();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		panelMapa.cargar(mundo.darTablero());;
+		panelMapa.cargar(mundo.darTablero());
 		panelInfo.cargar(mundo.darPuntaje()+"", mundo.darMovimientosRestantes()+"");
 	}
 
@@ -224,6 +224,14 @@ public class InterfazCriaturasMagicas extends JFrame {
 		
 		panelMapa.actualizar(mundo.darTablero());
 		panelInfo.cargar(mundo.darPuntaje()+"", mundo.darMovimientosRestantes()+"");
+		if (mundo.darPuntaje() >= 5000)
+		{
+			JOptionPane.showMessageDialog( this, "Felicidades! Has ganado el juego","Visitar casilla", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if (mundo.darPuntaje() <= -3000 || mundo.darMovimientosRestantes() <= 0)
+		{
+			JOptionPane.showMessageDialog( this, "Haz perdido","Visitar casilla", JOptionPane.INFORMATION_MESSAGE);
+		}
 		
 		
 	}

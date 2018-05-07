@@ -95,7 +95,7 @@ public class CriaturasMagicas
 	}
 
 
-	public  void inicializarTablero(){
+	public void inicializarTablero(){
 		Properties datos= datos2;
 
 		String numeroMov = datos.getProperty("tablero.cantidadMovimientos");
@@ -435,6 +435,12 @@ public class CriaturasMagicas
 	// Métodos de Extensión
 	// ----------------------------------------------------------------
 
+	
+	public void reiniciarPuntajes()
+	{
+		puntos = 0;
+	}
+	
 	/**
 	 * Método para la extensión 1.
 	 * @return Respuesta 1.
