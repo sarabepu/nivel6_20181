@@ -55,7 +55,7 @@ public class InterfazCriaturasMagicas extends JFrame {
 		add(panelNorte, BorderLayout.NORTH);
 
 		panelMapa = new PanelMapa(this);
-		panelMapa.setOpaque(false);
+		
 		panelMapa.setPreferredSize(new Dimension(552, 450));
 		add(panelMapa, BorderLayout.WEST);
 
@@ -217,7 +217,7 @@ public class InterfazCriaturasMagicas extends JFrame {
 			mundo.click(fila, col);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 			ImageIcon icono = new ImageIcon( new ImageIcon( mundo.buscarCriatura(e.getMessage()).darRutaImagen() ).getImage( ).getScaledInstance( 150, 150, Image.SCALE_DEFAULT ) );
 			JOptionPane.showMessageDialog( this,"Encontraste 1 "+ e.getMessage(), "Hacer una jugada", JOptionPane.INFORMATION_MESSAGE, icono);
 		}

@@ -1,5 +1,6 @@
 package uniandes.cupi2.criaturasMagicas.interfaz;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ public class PanelMapa extends JPanel implements ActionListener{
 	public PanelMapa(InterfazCriaturasMagicas v)
 	
 	{ 
+		setOpaque(false);
 		principal=v;
 	}
 	
@@ -31,9 +33,10 @@ public class PanelMapa extends JPanel implements ActionListener{
 		{
 			for (int j = 0; j < tablero[0].length; j++)
 			{
+				setBackground(new Color(237, 221,123));
 				mapa[i][j]= new JButton();
 				ImageIcon icono = new ImageIcon( new ImageIcon( tablero[i][j].darTipo()).getImage( ).getScaledInstance( 50, 50, Image.SCALE_DEFAULT ) );
-			
+				
 				mapa[i][j].setIcon(icono);
 				mapa[i][j].addActionListener(this);
 				mapa[i][j].setActionCommand(i+","+j);
@@ -51,6 +54,7 @@ public class PanelMapa extends JPanel implements ActionListener{
 	public void actualizar(Casilla[][] tablero)
 	{
 		removeAll();
+		setOpaque(true);
 		for(int i = 0; i < tablero.length; i++)
 		{
 			for (int j = 0; j < tablero[0].length; j++)
