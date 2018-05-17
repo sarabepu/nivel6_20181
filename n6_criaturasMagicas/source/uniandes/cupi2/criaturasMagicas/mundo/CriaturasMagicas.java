@@ -73,71 +73,6 @@ public class CriaturasMagicas
 		}
 	}
 
-	public void tablero (File arch) throws Exception{
-		cargarTablero(arch);
-
-		inicializarTablero();
-
-	}
-
-	public void cargarTablero( File arch)throws Exception{
-
-		datos2= new Properties( );
-		FileInputStream in = new FileInputStream( arch );
-
-		try {
-			datos2.load( in );
-			in.close( );
-		}
-		catch( Exception e ) {
-			throw new Exception( "Formato invAlido" );
-		}
-	}
-
-
-	public void inicializarTablero(){
-		Properties datos= datos2;
-
-		String numeroMov = datos.getProperty("tablero.cantidadMovimientos");
-		movimientosRestantes = Integer.parseInt(numeroMov); 
-
-		String numeroFilas = datos.getProperty("tablero.cantidadFilas");
-		filas = Integer.parseInt(numeroFilas);  
-
-		String numeroColumnas= datos.getProperty("tablero.cantidadColumnas");
-		columnas = Integer.parseInt(numeroColumnas);  
-
-
-		tablero = new Casilla [filas][columnas];
-
-		for (int i = 0; i<filas; i++)
-		{
-			for(int j = 0; j<columnas; j++)
-			{
-				String[] filaActual = datos.getProperty("tablero.fila"+(i+1)).split(",");
-				int estado = Integer.parseInt(filaActual[j]);
-				tablero[i][j]= new Casilla (estado);
-			}
-		}
-
-		int criaturas= Integer.parseInt(datos.getProperty("tablero.cantidadCriaturas"));
-		for (int i = 1; i <= criaturas; i++)
-		{
-			String[] filaActual = datos.getProperty("tablero.criatura"+i).split(",");
-			String criatura= filaActual[0];
-			int filaC = Integer.parseInt(filaActual[1]);
-			int colC = Integer.parseInt(filaActual[2]);
-
-			tablero[filaC][colC].cambiarCriatura(buscarCriatura(criatura));
-		}
-
-	} 
-
-	public Casilla[][] darTablero()
-	{
-		return tablero;
-	}
-
 
 
 	// -----------------------------------------------------------------
@@ -188,7 +123,7 @@ public class CriaturasMagicas
 	}
 
 	/**
-	 * Retorna el puntaje del jugador. Este valor siempre es 0.
+	 * Retorna el puntaje del jugador. Este valor siempre es .
 	 * @return El  puntaje del jugador.
 	 */
 	public int darPuntaje( )
@@ -196,40 +131,7 @@ public class CriaturasMagicas
 		return puntos;
 	}
 
-	public void click(int i, int j) throws Exception
-	{
-		
-		System.out.println("fila "+i+"col"+j);
-		if(tablero[i][j].esVisitada())
-		{
-			movimientosRestantes--;
-		}
-		else
-		{
-			Criatura criatura= tablero[i][j].darCriatura();
-			tablero[i][j].visitar(true);
-			movimientosRestantes--;
-			if(criatura!=null)
-			{
-				puntos+=criatura.darPuntos();
-				tablero[i][j].cambiarTipo(criatura.darRutaImagen());
-				throw new Exception (criatura.darNombre());
-			}
-			else
-			{
-				tablero[i][j].cambiarTipo(Casilla.VISITADA);
-			}
-		}
-	}
-	/**
-	 * Retorna la cantidad de movimientos restantes del jugador. Este valor siempre es 10.
-	 * @return La cantidad de movimientos restantes del jugador.
-	 */
-	public int darMovimientosRestantes( )
-	{
-		return movimientosRestantes;
-	}
-
+	
 	/**
 	 * Busca una criatura por su nombre en la enciclopedia de criaturas.
 	 * @param pNombre Nombre de la criatura. pNombre != null && pNombre != "".
@@ -310,6 +212,133 @@ public class CriaturasMagicas
 		}
 	}
 
+	
+
+	// ----------------------------------------------------------------
+	// Métodos de Extensión
+	// ----------------------------------------------------------------
+
+	
+	
+	/**
+	 * Método para la extensión 1.
+	 * @return Respuesta 1.
+	 */
+	public String metodo1( )
+	{
+		return "Respuesta 1";
+	}
+
+	/**
+	 * Método para la extensión 2.
+	 * @return Respuesta 2.
+	 */
+	public String metodo2( )
+	{
+		return "Respuesta 2";
+	}
+	public void tablero (File arch) throws Exception{
+		cargarTablero(arch);
+
+		inicializarTablero();
+
+	}
+
+	public void cargarTablero( File arch)throws Exception{
+
+		datos2= new Properties( );
+		FileInputStream in = new FileInputStream( arch );
+
+		try {
+			datos2.load( in );
+			in.close( );
+		}
+		catch( Exception e ) {
+			throw new Exception( "Formato invAlido" );
+		}
+	}
+
+
+	public void inicializarTablero(){
+		Properties datos= datos2;
+
+		String numeroMov = datos.getProperty("tablero.cantidadMovimientos");
+		movimientosRestantes = Integer.parseInt(numeroMov); 
+
+		String numeroFilas = datos.getProperty("tablero.cantidadFilas");
+		filas = Integer.parseInt(numeroFilas);  
+
+		String numeroColumnas= datos.getProperty("tablero.cantidadColumnas");
+		columnas = Integer.parseInt(numeroColumnas);  
+
+
+		tablero = new Casilla [filas][columnas];
+
+		for (int i = 0; i<filas; i++)
+		{
+			String[] filaActual = datos.getProperty("tablero.fila"+(i+1)).split(",");
+			for(int j = 0; j<columnas; j++)
+			{
+				String estado = filaActual[j];
+				tablero[i][j]= new Casilla(estado);
+			}
+		}
+
+		int criaturas= Integer.parseInt(datos.getProperty("tablero.cantidadCriaturas"));
+		for (int i = 1; i <= criaturas; i++)
+		{
+			String[] filaActual = datos.getProperty("tablero.criatura"+i).split(",");
+			String criatura= filaActual[0];
+			int filaC = Integer.parseInt(filaActual[1]);
+			int colC = Integer.parseInt(filaActual[2]);
+
+			tablero[filaC][colC].cambiarCriatura(buscarCriatura(criatura));
+		}
+
+	} 
+	public void click(int i, int j) throws Exception
+	{
+		
+		
+		if(tablero[i][j].esVisitada())
+		{
+			movimientosRestantes--;
+		}
+		else
+		{
+			Criatura criatura= tablero[i][j].darCriatura();
+			tablero[i][j].visitar(true);
+			movimientosRestantes--;
+			if(criatura!=null)
+			{
+				puntos+=criatura.darPuntos();
+				tablero[i][j].cambiarTipo(criatura.darRutaImagen());
+				throw new Exception (criatura.darNombre());
+			}
+			else
+			{
+				tablero[i][j].cambiarTipo(Casilla.VISITADA);
+			}
+		}
+	}
+
+	
+	public int darMovimientosRestantes( )
+	{
+		return movimientosRestantes;
+	}
+
+
+	public Casilla[][] darTablero()
+	{
+		return tablero;
+	}
+	
+	public void reiniciarPuntajes()
+	{
+		puntos = 0;
+	}
+	
 	/**
 	 * Retorna la cantidad de criaturas en la fila especificada. Esta cantidad se genera aleatoriamente.
 	 * @param pFila Fila que se desea consultar. 
@@ -430,35 +459,6 @@ public class CriaturasMagicas
 
 		return ans;
 	}
-
-	// ----------------------------------------------------------------
-	// Métodos de Extensión
-	// ----------------------------------------------------------------
-
-	
-	public void reiniciarPuntajes()
-	{
-		puntos = 0;
-	}
-	
-	/**
-	 * Método para la extensión 1.
-	 * @return Respuesta 1.
-	 */
-	public String metodo1( )
-	{
-		return "Respuesta 1";
-	}
-
-	/**
-	 * Método para la extensión 2.
-	 * @return Respuesta 2.
-	 */
-	public String metodo2( )
-	{
-		return "Respuesta 2";
-	}
-
 	
 
 }

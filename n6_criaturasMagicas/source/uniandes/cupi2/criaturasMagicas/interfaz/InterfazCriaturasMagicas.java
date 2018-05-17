@@ -55,7 +55,7 @@ public class InterfazCriaturasMagicas extends JFrame {
 		add(panelNorte, BorderLayout.NORTH);
 
 		panelMapa = new PanelMapa(this);
-		
+
 		panelMapa.setPreferredSize(new Dimension(552, 450));
 		add(panelMapa, BorderLayout.WEST);
 
@@ -86,7 +86,7 @@ public class InterfazCriaturasMagicas extends JFrame {
 		if( resultado == JFileChooser.APPROVE_OPTION )
 		{
 			tablero = fc.getSelectedFile( );
-			System.out.println(tablero);
+		
 			try
 			{	        
 
@@ -94,8 +94,8 @@ public class InterfazCriaturasMagicas extends JFrame {
 			}
 			catch (Exception e) 
 			{
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Formato inv�lido", "Error", JOptionPane.ERROR_MESSAGE);
+				
+				JOptionPane.showMessageDialog(this, "Formato invalido", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -124,7 +124,7 @@ public class InterfazCriaturasMagicas extends JFrame {
 
 	public void cargar() 
 	{
-		
+
 		pedirTablero();
 		panelMapa.cargar(mundo.darTablero());
 		panelInfo.cargar(mundo.darPuntaje()+"", mundo.darMovimientosRestantes()+"");
@@ -148,9 +148,12 @@ public class InterfazCriaturasMagicas extends JFrame {
 		String input = JOptionPane.showInputDialog( this, "Ingresa la fila", "Dar criaturas por fila", JOptionPane.QUESTION_MESSAGE );
 		try
 		{
-			int fila = Integer.parseInt( input );
-			String mensaje= "En la fila indicada hay "+mundo.darCantidadCriaturasPorFila(fila)+ " criaturas";
-			JOptionPane.showMessageDialog( this, mensaje, "Dar criaturas por fila", JOptionPane.INFORMATION_MESSAGE );
+			if(input!=null)
+			{
+				int fila = Integer.parseInt( input );
+				String mensaje= "En la fila indicada hay "+mundo.darCantidadCriaturasPorFila(fila)+ " criaturas";
+				JOptionPane.showMessageDialog( this, mensaje, "Dar criaturas por fila", JOptionPane.INFORMATION_MESSAGE );
+			}
 		}
 		catch( Exception e )
 		{
@@ -164,9 +167,12 @@ public class InterfazCriaturasMagicas extends JFrame {
 		String input = JOptionPane.showInputDialog( this, "Ingresa la columna", "Dar criaturas por columna", JOptionPane.QUESTION_MESSAGE );
 		try
 		{
-			int columna = Integer.parseInt( input );
-			String mensaje= "En la columna indicada hay "+mundo.darCantidadCriaturasPorColumna(columna)+ " columna";
-			JOptionPane.showMessageDialog( this, mensaje, "Dar criaturas por columna", JOptionPane.INFORMATION_MESSAGE );
+			if(input!=null)
+			{
+				int columna = Integer.parseInt( input );
+				String mensaje= "En la columna indicada hay "+mundo.darCantidadCriaturasPorColumna(columna)+ " columna";
+				JOptionPane.showMessageDialog( this, mensaje, "Dar criaturas por columna", JOptionPane.INFORMATION_MESSAGE );
+			}
 		}
 		catch( Exception e )
 		{
@@ -179,12 +185,16 @@ public class InterfazCriaturasMagicas extends JFrame {
 		String input = JOptionPane.showInputDialog( this, "Ingresa el cuadrante", "Dar puntaje por cuadrante", JOptionPane.QUESTION_MESSAGE );
 		try
 		{
-			int cuadrante = Integer.parseInt( input );
-			if (cuadrante < 1 || cuadrante > 4)
-				throw new Exception();
+			if(input!=null)
+			{
+				int cuadrante = Integer.parseInt( input );
+				if (cuadrante < 1 || cuadrante > 4)
+					throw new Exception();
 
-			String mensaje= "En el cuadrante indicado hay "+mundo.calcularPuntajePorCuadrante(cuadrante)+ " puntos por obtener";
-			JOptionPane.showMessageDialog( this, mensaje, "Dar puntaje por cuadrante", JOptionPane.INFORMATION_MESSAGE );
+				String mensaje= "En el cuadrante indicado hay "+mundo.calcularPuntajePorCuadrante(cuadrante)+ " puntos por obtener";
+				JOptionPane.showMessageDialog( this, mensaje, "Dar puntaje por cuadrante", JOptionPane.INFORMATION_MESSAGE );
+
+			}
 		}
 		catch( Exception e )
 		{
@@ -217,11 +227,11 @@ public class InterfazCriaturasMagicas extends JFrame {
 			mundo.click(fila, col);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			
+
 			ImageIcon icono = new ImageIcon( new ImageIcon( mundo.buscarCriatura(e.getMessage()).darRutaImagen() ).getImage( ).getScaledInstance( 150, 150, Image.SCALE_DEFAULT ) );
 			JOptionPane.showMessageDialog( this,"Encontraste 1 "+ e.getMessage(), "Hacer una jugada", JOptionPane.INFORMATION_MESSAGE, icono);
 		}
-		
+
 		panelMapa.actualizar(mundo.darTablero());
 		panelInfo.cargar(mundo.darPuntaje()+"", mundo.darMovimientosRestantes()+"");
 		if (mundo.darPuntaje() >= 5000)
@@ -232,8 +242,16 @@ public class InterfazCriaturasMagicas extends JFrame {
 		{
 			JOptionPane.showMessageDialog( this, "Haz perdido","Visitar casilla", JOptionPane.INFORMATION_MESSAGE);
 		}
-		
-		
+
+
+	}
+	public void opcion1()
+	{
+		JOptionPane.showMessageDialog( this, "Opcion 1","Opcion 1", JOptionPane.INFORMATION_MESSAGE);
+	}
+	public void opcion2()
+	{
+		JOptionPane.showMessageDialog( this, "Opcion 2","Opcion 2", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 

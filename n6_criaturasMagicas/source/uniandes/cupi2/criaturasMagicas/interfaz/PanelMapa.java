@@ -53,7 +53,7 @@ public class PanelMapa extends JPanel implements ActionListener{
 	
 	public void actualizar(Casilla[][] tablero)
 	{
-		removeAll();
+	
 		setOpaque(true);
 		for(int i = 0; i < tablero.length; i++)
 		{
@@ -61,7 +61,7 @@ public class PanelMapa extends JPanel implements ActionListener{
 			{
 				ImageIcon icono = new ImageIcon( new ImageIcon( tablero[i][j].darTipo()).getImage( ).getScaledInstance( 50, 50, Image.SCALE_DEFAULT ) );
 				mapa[i][j].setIcon(icono);
-				add(mapa[i][j]);
+			
 				
 			}
 		}

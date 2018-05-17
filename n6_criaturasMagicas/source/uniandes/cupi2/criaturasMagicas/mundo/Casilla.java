@@ -14,21 +14,21 @@ public class Casilla {
 	private Criatura criatura;
 	private boolean visitada;
 	private String tipo;
-	public Casilla( int pTipo)
+	public Casilla( String pTipo)
 	{
-		if(pTipo==0)
+		if(pTipo.equals("0"))
 		{
 			tipo=PRADERA;
 		}
-		else if(pTipo==1)
+		else if(pTipo.equals("1"))
 		{
 			tipo=BOSQUE;
 		}
-		else if(pTipo==2)
+		else if(pTipo.equals("2"))
 		{
 			tipo=OCEANO;
 		}
-		else if(pTipo==3)
+		else if(pTipo.equals("3"))
 		{
 			tipo=CUEVA;
 		}

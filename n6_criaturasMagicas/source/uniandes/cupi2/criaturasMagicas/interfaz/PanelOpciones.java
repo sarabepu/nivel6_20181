@@ -40,6 +40,11 @@ public class PanelOpciones extends JPanel implements ActionListener{
 		
 		opcion1= new JButton("Opción 1");
 		opcion2= new JButton("Opción 2");
+		opcion1.addActionListener(this);
+		opcion1.setActionCommand(OPCION1);
+		opcion2.addActionListener(this);
+		opcion2.setActionCommand(OPCION2);
+		
 		add(cargar);
 		add(reiniciar);
 		add(opcion1);
@@ -58,6 +63,14 @@ public class PanelOpciones extends JPanel implements ActionListener{
 		else if (comando.equals(REINICIAR))
 		{
 			principal.reiniciar();
+		}
+		else if (comando.equals(OPCION1))
+		{
+			principal.opcion1();;
+		}
+		else if (comando.equals(OPCION2))
+		{
+			principal.opcion2();;
 		}
 		
 	}
